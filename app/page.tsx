@@ -6,6 +6,7 @@ import PersonaScreen from "./components/PersonaScreen";
 import ReportScreen from "./components/ReportScreen";
 import ScenarioSelectScreen from "./components/ScenarioSelectScreen";
 import RolePlayScreen from "./components/RolePlayScreen";
+import GuidelineScreen from "./components/GuidelineScreen";
 
 interface Message {
   role: "user" | "assistant";
@@ -121,6 +122,10 @@ export default function Home() {
 
     if (activeMenu === "분석 리포트") {
       return <ReportScreen />;
+    }
+
+    if (activeMenu === "가이드 라인") {
+      return <GuidelineScreen />;
     }
 
     if (selectedScenario) {
