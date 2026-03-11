@@ -5,6 +5,7 @@ import Image from "next/image";
 import PersonaScreen from "./components/PersonaScreen";
 import ReportScreen from "./components/ReportScreen";
 import ScenarioSelectScreen from "./components/ScenarioSelectScreen";
+import RolePlayScreen from "./components/RolePlayScreen";
 
 interface Message {
   role: "user" | "assistant";
@@ -106,12 +107,7 @@ export default function Home() {
       return <PersonaScreen />;
     }
 
-    if (activeMenu === "분석 리포트") {
-      return <ReportScreen />;
-    }
-
-    // 시나리오가 아직 선택되지 않았으면 시나리오 선택 화면 표시
-    if (!selectedScenario && !activeMenu) {
+    if (activeMenu === "시나리오 생성") {
       return (
         <ScenarioSelectScreen
           onSelect={(id) => {
@@ -123,35 +119,31 @@ export default function Home() {
       );
     }
 
+    if (activeMenu === "분석 리포트") {
+      return <ReportScreen />;
+    }
+
+    if (selectedScenario) {
+      return (
+        <RolePlayScreen
+          scenarioId={selectedScenario}
+          scenarioLabel={scenarioNames[selectedScenario] || ""}
+          onExit={() => {
+            setSelectedScenario(null);
+            setActiveMenu("시나리오 생성");
+            setMessages([]);
+          }}
+        />
+      );
+    }
+
     return (
       <div className="chat-container">
         <header className="chat-header">
-          <h1>{selectedScenario ? scenarioNames[selectedScenario] + " AI 롤플레잉" : "코칭대화 롤플레이 챗봇"}</h1>
-          {selectedScenario && (
-            <button className="chat-back-btn" onClick={() => { setSelectedScenario(null); setMessages([]); }}>
-              ← 시나리오 선택
-            </button>
-          )}
+          <h1>코칭대화 롤플레이 챗봇</h1>
         </header>
         <div className="messages">
-          {messages.length === 0 && (
-            <div className="empty-state">메시지를 입력해서 대화를 시작하세요!</div>
-          )}
-          {messages.map((msg, i) => (
-            <div key={i} className={`message ${msg.role}`}>
-              <div className="message-label">
-                {msg.role === "user" ? "나" : "코치"}
-              </div>
-              <div className="message-content">{msg.content}</div>
-            </div>
-          ))}
-          {loading && (
-            <div className="message assistant">
-              <div className="message-label">코치</div>
-              <div className="message-content typing">생각 중...</div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
+          <div className="empty-state">사이드바에서 시나리오 생성 메뉴를 선택해 시작하세요!</div>
         </div>
         <div className="input-area">
           <input

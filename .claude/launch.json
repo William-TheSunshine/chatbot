@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "chatbot-dev3",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["next", "dev", "-p", "3002"],
-      "port": 3002
+      "name": "chatbot-dev",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd /c/Users/김민건/Downloads/chatbot && npx next dev -p 3001"],
+      "port": 3001
     }
   ]
 }
